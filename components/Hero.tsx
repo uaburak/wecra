@@ -7,7 +7,7 @@ import Container from './ui/Container';
 
 export default function Hero() {
     return (
-        <section className="relative h-screen flex items-end pb-12 md:pb-12 px-6 md:px-0 overflow-hidden bg-black -mt-20">
+        <section className="relative h-[65vh] md:h-screen flex items-end pb-12 md:pb-12 px-6 md:px-0 overflow-hidden bg-black -mt-20">
             {/* Background Layer */}
             <div className="absolute inset-0 z-0">
                 <HeroAnimation />

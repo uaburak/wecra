@@ -3,10 +3,9 @@
 import { Environment, Lightformer, useGLTF } from '@react-three/drei'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { Bloom, EffectComposer, Noise, Vignette } from '@react-three/postprocessing'
-import { gsap } from 'gsap'
+import gsap from 'gsap'
 import { forwardRef, useCallback, useLayoutEffect, useMemo, useRef, useState, useEffect } from 'react'
 import * as THREE from 'three'
-import { lerp } from 'three/src/math/MathUtils'
 
 // --- Configuration ---
 
@@ -161,9 +160,9 @@ const Particles = ({ size = 25, color = '#fff', alpha = 0.25, velocity = 0.1, di
     )
 }
 
-// --- CamTargetRotation (Simplified from snippet) ---
+// --- CamTargetRotation ---
 
-const CamTargetRotation = ({ initialCamPosition, target, rotationMultipliers, autoRotate }: any) => {
+const CamTargetRotation = ({ initialCamPosition, target, rotationMultipliers, isMobile }: any) => {
     const { camera } = useThree()
 
     const initialSpherical = useMemo(() => {
@@ -172,16 +171,24 @@ const CamTargetRotation = ({ initialCamPosition, target, rotationMultipliers, au
     }, [initialCamPosition, target])
 
     useFrame((state) => {
-        const x = state.pointer.x
-        const y = state.pointer.y
+        let thetaDelta = 0
+        let phiDelta = 0
 
-        const thetaDelta = Math.PI * x * rotationMultipliers.x
-        const phiDelta = -(Math.PI * y) * rotationMultipliers.y
+        if (isMobile) {
+            // Auto sway for mobile
+            const time = state.clock.getElapsedTime()
+            thetaDelta = Math.sin(time * 0.2) * 0.2 // Gentle left-right
+            phiDelta = Math.sin(time * 0.15) * 0.05 // Very subtle up-down
+        } else {
+            // Mouse interaction for desktop
+            const x = state.pointer.x
+            const y = state.pointer.y
+            thetaDelta = Math.PI * x * rotationMultipliers.x
+            phiDelta = -(Math.PI * y) * rotationMultipliers.y
+        }
 
         const currentSpherical = initialSpherical.clone()
         currentSpherical.theta += thetaDelta
-        // User requested NO 360 degree spin here. 
-        // We strictly follow mouse interaction only.
 
         currentSpherical.phi += phiDelta
         currentSpherical.phi = Math.max(0.1, Math.min(Math.PI - 0.1, currentSpherical.phi))
@@ -265,7 +272,7 @@ function MovingSpots({ positions = [2, 0, 2, 0, 2, 0] }) {
 const Effects = () => {
     // Settings from Screenshot
     return (
-        <EffectComposer disableGamma={false} multisamping={0}>
+        <EffectComposer multisampling={0}>
             <Noise opacity={0.18} />
             <Bloom
                 radius={1.0}
@@ -284,7 +291,7 @@ const Effects = () => {
 
 // --- Scene ---
 
-const XeroScene = () => {
+const XeroScene = ({ isMobile }: { isMobile: boolean }) => {
     const neonRef = useRef<any>(null)
     const ambientRef = useRef<THREE.AmbientLight>(null)
 
@@ -292,7 +299,7 @@ const XeroScene = () => {
         if (!ambientRef.current || !neonRef.current) return
 
         const neonColor = v
-        const ambientIntensity = lerp(
+        const ambientIntensity = THREE.MathUtils.lerp(
             config.ambient.minMaxIntensity[0],
             config.ambient.minMaxIntensity[1],
             v
@@ -300,8 +307,6 @@ const XeroScene = () => {
 
         ambientRef.current.intensity = ambientIntensity
 
-        // Use setRGB with grayscale/white as in original code snippet
-        // If user wants yellow, we can change this later, but request is "original code"
         neonRef.current?.material?.emissive?.setRGB?.(
             neonColor,
             neonColor,
@@ -358,7 +363,7 @@ const XeroScene = () => {
                 initialCamPosition={config.camera.position}
                 target={config.camera.target}
                 rotationMultipliers={config.camera.rotationMultipliers}
-                autoRotate
+                isMobile={isMobile}
             />
 
             <Xero position={[0.1, 1.2, 0.55]} ref={neonRef} />
@@ -375,6 +380,17 @@ const XeroScene = () => {
 }
 
 export default function HeroAnimation() {
+    const [isMobile, setIsMobile] = useState(false)
+
+    useEffect(() => {
+        const checkMobile = () => {
+            setIsMobile(window.innerWidth < 768)
+        }
+        checkMobile()
+        window.addEventListener('resize', checkMobile)
+        return () => window.removeEventListener('resize', checkMobile)
+    }, [])
+
     return (
         <div className="w-full h-full relative z-0">
             <Canvas
@@ -382,12 +398,12 @@ export default function HeroAnimation() {
                 dpr={[1, 1.5]}
                 camera={{
                     position: config.camera.position,
-                    fov: config.camera.fov,
+                    fov: isMobile ? 22 : config.camera.fov,
                     near: config.camera.near,
                     far: config.camera.far
                 }}
             >
-                <XeroScene />
+                <XeroScene isMobile={isMobile} />
             </Canvas>
         </div>
     )

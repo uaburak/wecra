@@ -25,6 +25,7 @@ const services = [
     }
 ];
 
+// Preview section for services
 export default function ServicesPreview() {
     return (
         <section className="py-32 bg-black">
