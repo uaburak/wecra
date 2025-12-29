@@ -1,45 +1,69 @@
+"use client";
+
 import Link from 'next/link';
+import HeroAnimation from './HeroAnimation';
+import { motion } from 'framer-motion';
+import Container from './ui/Container';
 
 export default function Hero() {
     return (
-        <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
-            {/* Background Elements */}
-            <div className="absolute inset-0 bg-background z-0">
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-accent/5 rounded-full blur-[120px]" />
+        <section className="relative h-screen flex items-end pb-12 md:pb-12 px-6 md:px-0 overflow-hidden bg-black -mt-20">
+            {/* Background Layer */}
+            <div className="absolute inset-0 z-0">
+                <HeroAnimation />
             </div>
 
-            <div className="container mx-auto px-6 relative z-10 text-center">
-                <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6 leading-tight">
-                    WECRAFT<br />
-                    <span className="text-neutral-600">YOUR BRAND</span>
-                </h1>
+            {/* Dark Gradient from bottom to ensure text readability */}
+            <div className="absolute inset-x-0 bottom-0 h-[60vh] bg-gradient-to-t from-black via-black/80 to-transparent z-10 pointer-events-none" />
 
-                <p className="max-w-xl mx-auto text-base md:text-lg text-neutral-400 mb-10 font-normal leading-relaxed">
-                    Premium digital agency that elevates brands through design, strategy and precision. We verify perfection.
-                </p>
+            {/* Content Layer - Aligned to Header (800px) */}
+            <Container className="relative z-20 flex flex-col md:flex-row justify-between items-start pb-4 gap-8 md:gap-0">
 
-                <div className="flex flex-col md:flex-row items-center justify-center gap-4">
-                    <Link
-                        href="/works"
-                        className="px-8 py-3 bg-accent text-black font-semibold rounded-full text-sm hover:bg-white transition-colors duration-300 min-w-[160px]"
+                {/* Left: Main Headline */}
+                <div className="shrink-0">
+                    <motion.div
+                        initial={{ opacity: 0, y: 50 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
                     >
-                        View Works
-                    </Link>
-                    <Link
-                        href="/approach"
-                        className="px-8 py-3 border border-white/10 rounded-full text-sm hover:border-accent hover:text-accent transition-colors duration-300 min-w-[160px]"
-                    >
-                        Our Approach
-                    </Link>
+                        <h1 className="text-[48px] leading-tight text-white font-normal">
+                            Turn your vision<br />
+                            into a <span className="text-[#FFE000] font-semibold">digital legacy.</span>
+                        </h1>
+                    </motion.div>
                 </div>
-            </div>
 
-            {/* Scroll Indicator */}
-            <div className="absolute bottom-12 left-1/2 -translate-x-1/2 animate-bounce">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-neutral-500">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                </svg>
-            </div>
+                {/* Right: Description & Button */}
+                <div className="flex flex-col justify-end items-start gap-6 pb-3 self-stretch">
+                    <motion.div
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.5, duration: 0.8 }}
+                    >
+                        <Link
+                            href="/works"
+                            className="group flex items-center gap-4 text-white hover:text-[#FFE000] transition-colors"
+                        >
+                            <span className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center group-hover:border-[#FFE000] group-hover:bg-[#FFE000] group-hover:text-black transition-all duration-300">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                                    <line x1="7" y1="17" x2="17" y2="7"></line>
+                                    <polyline points="7 7 17 7 17 17"></polyline>
+                                </svg>
+                            </span>
+                            <span className="text-lg font-medium lowercase tracking-tight">view works</span>
+                        </Link>
+                    </motion.div>
+
+                    <motion.p
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.6, duration: 0.8 }}
+                        className="text-neutral-400 text-sm leading-relaxed max-w-[300px]"
+                    >
+                        We partner with visionaries to create industry-defining digital products.
+                    </motion.p>
+                </div>
+            </Container>
         </section>
     );
 }

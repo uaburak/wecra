@@ -1,59 +1,128 @@
+"use client";
+
 import Link from 'next/link';
+import { motion } from 'framer-motion';
+import Container from './ui/Container';
 
 const services = [
     {
-        title: "Branding",
-        description: "We build identities that command attention. From logos to comprehensive brand guidelines, we define who you are.",
-        link: "/services/branding"
-    },
-    {
-        title: "Web Design",
-        description: "Digital experiences that convert. We craft high-performance, visually stunning websites tailored to your brand.",
+        number: "01",
+        title: "web design",
+        description: "We craft immersive digital experiences that convert visitors into loyal customers. Through intuitive layouts and striking visuals, we ensure every interaction feels meaningful and intentional.",
         link: "/services/web-design"
     },
     {
-        title: "SEO & Strategy",
-        description: "Visibility with precision. We optimized your digital presence to reach the right audience, globally.",
-        link: "/services/seo"
+        number: "02",
+        title: "branding",
+        description: "Your brand is more than a logo; it's a story waiting to be told. We build comprehensive visual identities that command attention, resonate with your audience, and stand the test of time.",
+        link: "/services/branding"
+    },
+    {
+        number: "03",
+        title: "development",
+        description: "We build robust, scalable digital products using cutting-edge technologies. From complex web applications to seamless e-commerce platforms, our code is as clean as our designs.",
+        link: "/services/development"
     }
 ];
 
 export default function ServicesPreview() {
     return (
-        <section className="py-24 bg-neutral-900/50">
-            <div className="container mx-auto px-6">
-                <div className="flex flex-col md:flex-row justify-between items-end mb-16">
-                    <div className="max-w-2xl">
-                        <h2 className="text-3xl md:text-4xl font-bold mb-6 tracking-tight">Our Expertise</h2>
-                        <p className="text-neutral-400 text-base md:text-lg">
-                            We don't do everything. We do a few things exceptionally well.
-                        </p>
-                    </div>
-                    <Link href="/services" className="hidden md:inline-block text-accent hover:text-white transition-colors mt-6 md:mt-0 font-medium text-sm">
-                        View All Services →
-                    </Link>
+        <section className="py-32 bg-black">
+            <Container>
+                {/* Header Row */}
+                <div className="flex items-start justify-between mb-2">
+                    {/* Title */}
+                    <motion.h2
+                        initial={{ opacity: 0, x: -20 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: false }}
+                        transition={{ duration: 0.8 }}
+                        className="text-[32px] md:text-[40px] font-normal leading-tight text-white"
+                    >
+                        Our <span className="text-[#FFE000]">services</span>
+                    </motion.h2>
+
+                    {/* Navigation Button */}
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: false }}
+                        transition={{ delay: 0.2, duration: 0.6 }}
+                    >
+                        <Link
+                            href="/services"
+                            className="group w-10 h-10 rounded-full border border-white/20 flex items-center justify-center hover:border-[#FFE000] hover:bg-[#FFE000] transition-all duration-300"
+                        >
+                            <svg
+                                className="text-white group-hover:text-black transition-colors duration-300"
+                                width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"
+                            >
+                                <line x1="7" y1="17" x2="17" y2="7"></line>
+                                <polyline points="7 7 17 7 17 17"></polyline>
+                            </svg>
+                        </Link>
+                    </motion.div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                {/* Description - Full Width Justified */}
+                <motion.p
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: false }}
+                    transition={{ delay: 0.1, duration: 0.8 }}
+                    className="text-neutral-400 text-sm mb-12 w-full text-justify leading-relaxed"
+                >
+                    We specialize in crafting digital experiences that not only look stunning but also drive tangible results.
+                    From strategic rebranding to complex web applications, our portfolio showcases our commitment to excellence.
+                </motion.p>
+
+                {/* Services Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     {services.map((service, index) => (
-                        <div key={index} className="group p-8 border border-white/10 rounded-2xl hover:border-accent/50 hover:bg-white/5 transition-all duration-300">
-                            <h3 className="text-2xl font-bold mb-4 group-hover:text-accent transition-colors">{service.title}</h3>
-                            <p className="text-neutral-400 mb-8 leading-relaxed">
-                                {service.description}
-                            </p>
-                            <Link href={service.link} className="text-sm font-semibold text-white/50 group-hover:text-white transition-colors">
-                                Learn More
+                        <motion.div
+                            key={index}
+                            initial={{ opacity: 0, y: 30, scale: 0.9 }}
+                            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                            viewport={{ once: false, margin: "-100px" }}
+                            transition={{ delay: index * 0.15, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                            className="h-full"
+                        >
+                            <Link href={service.link} className="block h-full group">
+                                <div className="border border-white/10 rounded-2xl p-6 h-full hover:border-white/20 transition-all duration-300 bg-black relative flex flex-col min-h-[300px]">
+
+                                    {/* Top Row: Number & Arrow Button */}
+                                    <div className="flex items-start justify-between mb-8">
+                                        <div className="text-[#FFE000] text-xs font-bold pt-2">
+                                            {service.number}
+                                        </div>
+
+                                        {/* Circular Arrow Button - Top Right - Compact */}
+                                        <div className="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center group-hover:bg-[#FFE000] group-hover:border-[#FFE000] transition-all duration-300">
+                                            <svg
+                                                className="text-white group-hover:text-black transition-colors duration-300"
+                                                width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"
+                                            >
+                                                <line x1="7" y1="17" x2="17" y2="7"></line>
+                                                <polyline points="7 7 17 7 17 17"></polyline>
+                                            </svg>
+                                        </div>
+                                    </div>
+
+                                    {/* Title - Compact */}
+                                    <h3 className="text-[20px] font-normal text-white mb-4 group-hover:text-[#FFE000] transition-colors duration-300 leading-tight">
+                                        {service.title}
+                                    </h3>
+
+                                    {/* Description - Standard Flow, Longer Text */}
+                                    <p className="text-neutral-500 text-xs leading-relaxed line-clamp-4">
+                                        {service.description}
+                                    </p>
+                                </div>
                             </Link>
-                        </div>
+                        </motion.div>
                     ))}
                 </div>
-
-                <div className="mt-12 md:hidden text-center">
-                    <Link href="/services" className="text-accent hover:text-white transition-colors font-medium">
-                        View All Services →
-                    </Link>
-                </div>
-            </div>
+            </Container>
         </section>
     );
 }

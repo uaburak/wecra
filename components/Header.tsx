@@ -144,7 +144,7 @@ export default function Header() {
     }, [pathname]);
 
     return (
-        <div className="fixed top-6 left-0 w-full z-50 flex justify-center px-4">
+        <div className="fixed top-6 left-0 w-full z-[150] flex justify-center px-4">
             <motion.header
                 layout
                 initial={false}
