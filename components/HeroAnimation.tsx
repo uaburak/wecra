@@ -252,7 +252,7 @@ function MovingSpots({ positions = [2, 0, 2, 0, 2, 0] }) {
     return (
         <group position={[0, 4, 0]} rotation={[0, 0, -Math.PI / 2]}>
             <group ref={group}>
-                {positions.map((x, i) => (
+                {/*  {positions.map((x, i) => (
                     <Lightformer
                         key={i}
                         form="rect"
@@ -261,7 +261,7 @@ function MovingSpots({ positions = [2, 0, 2, 0, 2, 0] }) {
                         position={[x, 4, i * 6]}
                         scale={[4, 1, 1]}
                     />
-                ))}
+                ))} */}
             </group>
         </group>
     )
