@@ -1,27 +1,16 @@
 @import "tailwindcss";
 
-:root {
-  /* Wecra Brand Colors */
-  --background: #000000;
-  --foreground: #ededed;
-  --accent: #FACC15;
-  /* Yellow-400 equivalent, adjustable */
-
-  /* Additional shades if needed can be defined here or utilizing tailwind colors */
-}
-
-@theme inline {
+@theme {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --color-accent: var(--accent);
+}
 
-  --font-sans: var(--font-matter);
-  --font-heading: var(--font-matter);
-  /* Use Matter for both body and headings */
+:root {
+  --background: #050505;
+  --foreground: #ededed;
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans), sans-serif;
 }

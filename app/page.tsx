@@ -1,18 +1,16 @@
-import Hero from "@/components/Hero";
-import ReferencesSection from "@/components/ReferencesSection";
-import ServicesPreview from "@/components/ServicesPreview";
-import ApproachPreview from "@/components/ApproachPreview";
-import WorksPreview from "@/components/WorksPreview";
-import CallToAction from "@/components/CallToAction";
+"use client";
+
+import Hero from "@/components/home/sections/Hero";
+import About from "@/components/home/sections/About";
+import Works from "@/components/home/sections/Works";
+import Services from "@/components/home/sections/Services";
+import Clients from "@/components/home/sections/Clients";
 
 export default function Home() {
   return (
-    <>
+    <div className="flex flex-col min-h-[50vh]">
       <Hero />
-      <ServicesPreview />
-      <WorksPreview />
-      <ApproachPreview />
-      <CallToAction />
-    </>
+      <Hero />
+    </div>
   );
 }

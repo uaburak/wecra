@@ -41,8 +41,9 @@ export const metadata: Metadata = {
   },
 };
 
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+import Header from "@/components/global/Header";
+import Footer from "@/components/global/Footer";
+import SmoothScroll from "@/components/global/SmoothScroll";
 
 export default function RootLayout({
   children,
@@ -51,14 +52,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${matter.variable} antialiased bg-background text-foreground flex flex-col min-h-screen`}
-      >
-        <Header />
-        <main className="flex-grow pt-20">
-          {children}
-        </main>
-        <Footer />
+      <body className={`${matter.variable} antialiased bg-background text-foreground flex flex-col min-h-screen`}>
+        <SmoothScroll>
+          <Header />
+          <main className="flex-grow pt-20 max-w-[800px] mx-auto w-full">
+            {children}
+          </main>
+          <Footer />
+        </SmoothScroll>
       </body>
     </html>
   );
