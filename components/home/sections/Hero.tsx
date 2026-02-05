@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import Mobile from "@/components/global/device/Mobile";
 
 export default function Hero() {
     return (
@@ -24,9 +25,12 @@ export default function Hero() {
                     </Link>
                 </div>
 
-                {/* Right Column: Placeholder Component */}
-                <div className="bg-red-500 w-full h-full min-h-[300px] flex items-center justify-center">
-                    {/* Placeholder content or empty */}
+                {/* Right Column: Hero Visual */}
+                <div className="relative w-full h-full max-h-[350px] min-h-[200px] md:min-h-auto flex items-center justify-center overflow-hidden">
+                    {/* Mobile Component Container */}
+                    <div className="w-[60%] md:w-full max-w-[250px] relative z-10 translate-y-[30%]">
+                        <Mobile src="/mobile-ref.jpg" />
+                    </div>
                 </div>
 
             </div>
